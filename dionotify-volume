@@ -1,0 +1,131 @@
+#!/bin/bash
+#### dionotify-volume
+# A simple utility to get the volume change notification
+#### Requires: coreutils, pulseaudio-utils, grep, util-linux, libnotify-bin
+
+# space_char defines a special character U+00A0 NO-BREAK SPACE, reference: https://invisible-characters.com/
+space_char=" "
+volume_percent=$(pactl list sinks | tr ' ' '\n' | grep -m1 '%' | tr -d '%')
+
+# determine how many white and gray bars to draw
+if [ $volume_percent == 0 ] || [ $volume_percent == 1 ]; then
+        whitebars=0
+        graybars=20
+elif [ $volume_percent -gt 1 ] && [ $volume_percent -le 5 ]; then
+        whitebars=1
+        graybars=19
+elif
+    [ $volume_percent -gt 5 ] && [ $volume_percent -le 10 ]; then
+        whitebars=2
+        graybars=18
+elif
+    [ $volume_percent -gt 10 ] && [ $volume_percent -le 15 ]; then
+        whitebars=3
+        graybars=17
+elif
+    [ $volume_percent -gt 15 ] && [ $volume_percent -le 20 ]; then
+        whitebars=4
+        graybars=16
+elif
+    [ $volume_percent -gt 20 ] && [ $volume_percent -le 25 ]; then
+        whitebars=5
+        graybars=15
+elif
+    [ $volume_percent -gt 25 ] && [ $volume_percent -le 30 ]; then
+        whitebars=6
+        graybars=14
+elif
+    [ $volume_percent -gt 30 ] && [ $volume_percent -le 35 ]; then
+        whitebars=7
+        graybars=13
+elif
+    [ $volume_percent -gt 35 ] && [ $volume_percent -le 40 ]; then
+        whitebars=8
+        graybars=12
+elif
+    [ $volume_percent -gt 40 ] && [ $volume_percent -le 45 ]; then
+        whitebars=9
+        graybars=11
+elif
+    [ $volume_percent -gt 45 ] && [ $volume_percent -le 50 ]; then
+        whitebars=10
+        graybars=10
+elif
+    [ $volume_percent -gt 50 ] && [ $volume_percent -le 55 ]; then
+        whitebars=11
+        graybars=9
+elif
+    [ $volume_percent -gt 55 ] && [ $volume_percent -le 60 ]; then
+        whitebars=12
+        graybars=8
+elif
+    [ $volume_percent -gt 60 ] && [ $volume_percent -le 65 ]; then
+        whitebars=13
+        graybars=7
+elif
+    [ $volume_percent -gt 65 ] && [ $volume_percent -le 70 ]; then
+        whitebars=14
+        graybars=6
+elif
+    [ $volume_percent -gt 70 ] && [ $volume_percent -le 75 ]; then
+        whitebars=15
+        graybars=5
+elif
+    [ $volume_percent -gt 75 ] && [ $volume_percent -le 80 ]; then
+        whitebars=16
+        graybars=4
+elif
+    [ $volume_percent -gt 80 ] && [ $volume_percent -le 85 ]; then
+        whitebars=17
+        graybars=3
+elif
+    [ $volume_percent -gt 85 ] && [ $volume_percent -le 90 ]; then
+        whitebars=18
+        graybars=2
+elif
+    [ $volume_percent -gt 90 ] && [ $volume_percent -le 95 ]; then
+        whitebars=19
+        graybars=1
+else
+        whitebars=20
+        graybars=0
+fi
+
+# setting the icon according to the volume percentage, low (1 - 30%), medium (30 - 70%), maximum (70 -100%)
+if [ $volume_percent -ge 0 ] && [ $volume_percent -le 30 ]; then
+        volume_icon=$(pwd)/icons/volume-low.png
+elif
+    [ $volume_percent -gt 30 ] && [ $volume_percent -le 70 ]; then
+        volume_icon=$(pwd)/icons/volume-med.png
+else
+        volume_icon=$(pwd)/icons/volume-max.png
+fi
+
+# limit maximum volume level to 150
+if [ $(pactl list sinks | tr ' ' '\n' | grep -m1 '%' | tr -d '%') -ge 150 ]; then
+    pactl -- set-sink-volume 0 150%
+    printf "Set volume level to: 150%%"
+    volume_percent=$(pactl list sinks | tr ' ' '\n' | grep -m1 '%' | tr -d '%')
+    notify-send \
+    --expire-time=1700  \
+    --icon=$(pwd)/icons/volume-max.png \
+    $(for i in {1..20}; do printf █; done)$space_char$volume_percent%$space_char"MAXIMUM!"
+    exit 0
+fi
+
+# if volume exceeded 100%
+if [ $(pactl list sinks | tr ' ' '\n' | grep -m1 '%' | tr -d '%') -gt 100 ]; then
+    notify-send \
+    --expire-time=1700 \
+    --icon=$(pwd)/icons/volume-max.png \
+    $(for i in {1..20}; do printf █; done)$space_char$volume_percent%$space_char"Too loud!"
+    exit 0
+fi
+
+# creating the notification
+notify-send \
+ --expire-time=1700 \
+ --icon=$volume_icon \
+ $(for i in $(seq 1 $whitebars); do printf █; done)$(for i in $(seq 1 $graybars); do printf ▒; done)$space_char$volume_percent%
+
+exit 0
