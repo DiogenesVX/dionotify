@@ -11,7 +11,7 @@ Of course this can run basically on any distro and desktop anvironment.
 # Screenshot
    ![Alt text](https://github.com/DiogenesVX/dionotify/blob/main/dionotify-volume.png)
 
-# Usage for Sway (step-by-step for the new users)
+# Usage for Sway (step-by-step for new users)
    1. Download the archive, extract it, open a terminal, navigate to the extracted folder and run:
    
           chmod +x dionotify-volume
