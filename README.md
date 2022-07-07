@@ -26,7 +26,7 @@ Of course this can run basically on any distro and desktop anvironment.
           
   Of course you may choose a different key combination or/and location for the script, don't forget to reload the Sway configuration afterwards. 
    
-   2. Make sure you have the following packages installed:
+   3. Make sure you have the following packages installed:
    
           grep
           coreutils
