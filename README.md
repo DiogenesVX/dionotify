@@ -13,14 +13,16 @@ Of course this can run basically on any distro and desktop anvironment.
 
 # Usage for Sway (step-by-step for the new users)
    1. Download the archive, extract it, open a terminal, navigate to the extracted folder and run:
-        chmod +x dionotify-volume
-        mkdir -p ~/.config/sway/icons
-        cp icons/* ~/.config/sway/icons
-        cp dionotify-volume ~/.config/sway
+   
+          chmod +x dionotify-volume
+          mkdir -p ~/.config/sway/icons
+          cp icons/* ~/.config/sway/icons
+          cp dionotify-volume ~/.config/sway
    
    2. Put the following lines into your ~/.config/sway/config
-        bindsym --locked XF86AudioRaiseVolume exec --no-startup-id 'pactl set-sink-volume @DEFAULT_SINK@ +5% && ~/.config/sway/dionotify-volume'
-        bindsym --locked XF86AudioLowerVolume exec --no-startup-id 'pactl set-sink-volume @DEFAULT_SINK@ -5% && ~/.config/sway/dionotify-volume'
+
+          bindsym --locked XF86AudioRaiseVolume exec --no-startup-id 'pactl set-sink-volume @DEFAULT_SINK@ +5% && ~/.config/sway/dionotify-volume'
+          bindsym --locked XF86AudioLowerVolume exec --no-startup-id 'pactl set-sink-volume @DEFAULT_SINK@ -5% && ~/.config/sway/dionotify-volume'
           
   Of course you may choose a different key combination or/and location for the script, don't forget to reload the Sway configuration afterwards. 
    
