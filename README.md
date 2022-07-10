@@ -2,7 +2,7 @@
 Audio volume level notification.
 This is a small notification utility which shows a nice notification bar when changing the audio volume.
 I created it for myself to use with Sway on Debian. If someone finds it useful for his/her situation, I'd be happy :).
-Of course this can run basically on any distro and desktop anvironment.
+Of course this can run basically on any distro and desktop environment.
 
 # Features
    1. Get a visual notification bar when changing the audio volume.
@@ -28,6 +28,7 @@ Of course this can run basically on any distro and desktop anvironment.
    
    3. Make sure you have the following packages installed:
    
+          yad
           grep
           coreutils
           util-linux
