@@ -28,7 +28,6 @@ Of course this can run basically on any distro and desktop environment.
    
    3. Make sure you have the following packages installed:
    
-          yad
           grep
           coreutils
           util-linux
